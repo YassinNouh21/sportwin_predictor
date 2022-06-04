@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sportwin_predictor/presentation/resources/color_manager.dart';
 import 'package:sportwin_predictor/presentation/resources/size_manager.dart';
 import 'package:sportwin_predictor/presentation/shared/guess_card.dart';
 
+import '../../../bloc/game_bloc.dart';
 import '../../../data/models/match.dart';
 import '../../shared/errored_image.dart';
 
@@ -12,6 +14,9 @@ class ShowMatchContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(match.team1);
+    print(match.team2);
+    print(match.team1ImageUrl);
     return Container(
       width: double.infinity,
       color: ColorManger.kSecondary,
@@ -43,9 +48,19 @@ class ShowMatchContainer extends StatelessWidget {
                 const SizedBox(
                   height: SizeManager.s25,
                 ),
-                GuessCard(
-                    // number: match.team1Guess?.toString(),
-                    ),
+                BlocBuilder<GameBloc, GameState>(
+                  buildWhen: (previous, current) => current is EndPlayState,
+                  builder: (context, state) {
+                    if (state is EndPlayState) {
+                      return GuessCard(
+                        number: state.guess1?.toString(),
+                      );
+                    }
+                    return const GuessCard(
+                      number: null,
+                    );
+                  },
+                ),
                 const SizedBox(height: SizeManager.s18),
               ],
             ),
@@ -74,9 +89,19 @@ class ShowMatchContainer extends StatelessWidget {
                 const SizedBox(
                   height: SizeManager.s25,
                 ),
-                GuessCard(
-                    // number: match.team2Guess?.toString(),
-                    ),
+                BlocBuilder<GameBloc, GameState>(
+                  buildWhen: (previous, current) => current is EndPlayState,
+                  builder: (context, state) {
+                    if (state is EndPlayState) {
+                      return GuessCard(
+                        number: state.guess2?.toString(),
+                      );
+                    }
+                    return const GuessCard(
+                      number: null,
+                    );
+                  },
+                ),
                 const SizedBox(height: SizeManager.s18),
               ],
             ),

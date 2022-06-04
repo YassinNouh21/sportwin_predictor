@@ -64,7 +64,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     } else {
       emit(InPlayState.fromState(
         state,
-        GameStatus.finished,
+        GameStatus.idle,
         match: _matches[randomIndex],
       ));
     }

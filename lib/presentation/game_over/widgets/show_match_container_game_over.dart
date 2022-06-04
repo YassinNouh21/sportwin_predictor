@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sportwin_predictor/bloc/game_bloc.dart';
 import 'package:sportwin_predictor/presentation/game_over/widgets/game_over_indicator.dart';
 import 'package:sportwin_predictor/presentation/resources/color_manager.dart';
 import 'package:sportwin_predictor/presentation/resources/size_manager.dart';
@@ -46,9 +48,19 @@ class ShowMatchContainerGameOver extends StatelessWidget {
                     const SizedBox(
                       height: SizeManager.s25,
                     ),
-                    GuessCard(
-                        // number: match.team1Guess?.toString(),
-                        ),
+                    BlocBuilder<GameBloc, GameState>(
+                      buildWhen: (previous, current) => current is EndPlayState,
+                      builder: (context, state) {
+                        if (state is EndPlayState) {
+                          return GuessCard(
+                            number: state.guess1?.toString(),
+                          );
+                        }
+                        return const GuessCard(
+                          number: null,
+                        );
+                      },
+                    ),
                     const SizedBox(height: SizeManager.s18),
                   ],
                 ),
@@ -77,9 +89,19 @@ class ShowMatchContainerGameOver extends StatelessWidget {
                     const SizedBox(
                       height: SizeManager.s25,
                     ),
-                    GuessCard(
-                        // number: match.team2Guess?.toString(),
-                        ),
+                    BlocBuilder<GameBloc, GameState>(
+                      buildWhen: (previous, current) => current is EndPlayState,
+                      builder: (context, state) {
+                        if (state is EndPlayState) {
+                          return GuessCard(
+                            number: state.guess2?.toString(),
+                          );
+                        }
+                        return const GuessCard(
+                          number: null,
+                        );
+                      },
+                    ),
                     const SizedBox(height: SizeManager.s18),
                   ],
                 ),

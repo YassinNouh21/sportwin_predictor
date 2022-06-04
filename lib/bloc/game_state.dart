@@ -85,9 +85,13 @@ class StartPlayState extends GameState {
 
 class EndPlayState extends GameState {
   final String message;
+  final int? guess1;
+  final int? guess2;
 
   const EndPlayState({
     required this.message,
+    this.guess1,
+    this.guess2,
     required int maxScore,
     GameStatus status = GameStatus.inProgress,
   }) : super(status, maxScore);

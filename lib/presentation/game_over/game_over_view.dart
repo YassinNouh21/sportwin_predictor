@@ -18,9 +18,7 @@ class GameOverScreen extends StatelessWidget {
             const Expanded(
               flex: 0,
               child: ScoreAppBar(
-                leftTime: 15,
                 numberOfRound: 2,
-                rightTime: 30,
                 score: 100,
               ),
             ),
