@@ -4,7 +4,8 @@ import 'package:sportwin_predictor/presentation/shared/guess_card.dart';
 
 class CardGrid extends StatelessWidget {
   final List<int> randomNumbers = randomList();
-  CardGrid({Key? key}) : super(key: key);
+  final Function(int) onTap;
+  CardGrid(this.onTap, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,47 +15,35 @@ class CardGrid extends StatelessWidget {
         2: FlexColumnWidth(1.0),
         3: FlexColumnWidth(1.0),
       },
-
-      defaultVerticalAlignment: TableCellVerticalAlignment .top,
+      defaultVerticalAlignment: TableCellVerticalAlignment.top,
       children: [
         TableRow(
-          children: [
-            GuessCard(
-              number: randomNumbers[0].toString(),
-            ),
-            GuessCard(
-              number: randomNumbers[1].toString(),
-            ),
-            GuessCard(
-              number: randomNumbers[2].toString(),
-            ),
-          ],
-        ),
+            children: List.generate(
+                3,
+                (index) => InkWell(
+                      onTap: () => onTap(randomNumbers[index]),
+                      child: GuessCard(
+                        number: randomNumbers[index].toString(),
+                      ),
+                    ))),
         TableRow(
-          children: [
-            GuessCard(
-              number: randomNumbers[3].toString(),
-            ),
-            GuessCard(
-              number: randomNumbers[4].toString(),
-            ),
-            GuessCard(
-              number: randomNumbers[5].toString(),
-            ),
-          ],
-        ),
+            children: List.generate(
+                3,
+                (index) => InkWell(
+                      onTap: () => onTap(randomNumbers[index + 3]),
+                      child: GuessCard(
+                        number: randomNumbers[index + 3].toString(),
+                      ),
+                    ))),
         TableRow(
-          children: [
-            GuessCard(
-              number: randomNumbers[6].toString(),
-            ),
-            GuessCard(
-              number: randomNumbers[7].toString(),
-            ),
-            GuessCard(
-              number: randomNumbers[8].toString(),
-            ),
-          ],
+          children: List.generate(
+              3,
+              (index) => InkWell(
+                    onTap: () => onTap(randomNumbers[index + 6]),
+                    child: GuessCard(
+                      number: randomNumbers[index + 6].toString(),
+                    ),
+                  )),
         ),
       ],
     );

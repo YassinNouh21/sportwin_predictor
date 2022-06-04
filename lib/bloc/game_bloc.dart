@@ -15,8 +15,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<InitialEvent>(_onInitialHandler);
     on<StartGameEvent>(_onStartGameHandler);
     on<LoadMatchEvent>(_onLoadMatchHandler);
-    on<GetNextMatchEvent>(_getNextMatchHandler);
     on<GetMatchResultsEvent>(_getMatchResultHandler);
+    on<ChangeMatchGuess>(_changeMatchGuessHandler);
   }
 
   List<MatchModel> _matches = [];
@@ -51,41 +51,58 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   _onLoadMatchHandler(LoadMatchEvent event, Emitter emit) {
-    emit(InPlayState.fromState(state, GameStatus.inProgress));
+    emit(InPlayState.fromState(state,
+        newStatus: GameStatus.inProgress, clear: true));
     final int randomIndex = _random.nextInt(_matches.length);
     if (_matches.isEmpty) {
-      int newMax = (state as InPlayState).currentScore > state.maxScore
-          ? (state as InPlayState).currentScore
-          : state.maxScore;
       emit(EndPlayState(
           message: "No More Matches Now",
-          maxScore: newMax,
-          status: GameStatus.error));
+          maxScore: state.maxScore,
+          status: GameStatus.finished));
     } else {
       emit(InPlayState.fromState(
         state,
-        GameStatus.idle,
+        newStatus: GameStatus.idle,
         match: _matches[randomIndex],
       ));
     }
   }
 
-  _getNextMatchHandler(GetNextMatchEvent event, Emitter emit) {}
-
   _getMatchResultHandler(GetMatchResultsEvent event, Emitter emit) {
-    (state as InPlayState).matchesNumber++;
-    if ((state as InPlayState).check) {
-      (state as InPlayState).currentScore += 100;
-    } else {
-      (state as InPlayState).errorsNumber--;
-      if ((state as InPlayState).errorsNumber < 0) {
-        int newMax = (state as InPlayState).currentScore > state.maxScore
-            ? (state as InPlayState).currentScore
-            : state.maxScore;
-        emit(EndPlayState(
-            message: "Game Over",
-            maxScore: newMax,
-            status: GameStatus.finished));
+    if (state is InPlayState) {
+      InPlayState oldState = state as InPlayState;
+      if (oldState.check) {
+        emit(InPlayState.fromState(state,
+            score: oldState.currentScore + 100,
+            newMax: oldState.newMax,
+            matches: oldState.matchesNumber + 1));
+        add(const LoadMatchEvent());
+      } else {
+        int errors = oldState.errorsNumber - 1;
+        if (errors == -1) {
+          emit(EndPlayState(
+              message: "No More Matches Lives",
+              maxScore: oldState.maxScore,
+              status: GameStatus.error));
+        } else {
+          emit(InPlayState.fromState(
+            state,
+            matches: oldState.matchesNumber + 1,
+            errors: errors,
+          ));
+          add(const LoadMatchEvent());
+        }
+      }
+    }
+  }
+
+  _changeMatchGuessHandler(ChangeMatchGuess event, Emitter emit) {
+    if (state is InPlayState) {
+      if ((state as InPlayState).team1Guess == null) {
+        emit(InPlayState.fromState(state, guess1: event.guess));
+      } else {
+        emit(InPlayState.fromState(state, guess2: event.guess));
+        add(const GetMatchResultsEvent());
       }
     }
   }

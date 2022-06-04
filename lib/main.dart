@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sportwin_predictor/bloc/game_bloc.dart';
 import 'package:sportwin_predictor/presentation/resources/route_manager.dart';
 
-import 'bloc/my_bloc_observer.dart';
 import 'data/repositories/local/pref_repository.dart';
 import 'presentation/resources/theme_manager.dart';
 
@@ -15,7 +14,7 @@ Future<void> main() async {
 
       runApp(const MyApp());
     },
-    blocObserver: MyBlocObserver(),
+    // blocObserver: MyBlocObserver(),
   );
 }
 

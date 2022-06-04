@@ -20,9 +20,7 @@ class ApiRepository {
       return _matchMapper.fromJson(response.data);
     } on DioError catch (e) {
       throw DioErrors.fromCode(e);
-    } catch (error, trace) {
-      print(error);
-      print(trace);
+    } catch (error) {
       throw const DioErrors();
     }
   }

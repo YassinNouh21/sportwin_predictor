@@ -14,9 +14,6 @@ class ShowMatchContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(match.team1);
-    print(match.team2);
-    print(match.team1ImageUrl);
     return Container(
       width: double.infinity,
       color: ColorManger.kSecondary,
@@ -32,9 +29,14 @@ class ShowMatchContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: SizeManager.s18),
-                Text(
-                  match.team1,
-                  style: Theme.of(context).textTheme.headline5,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    match.team1,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
                 ),
                 const SizedBox(
                   height: SizeManager.s4,
@@ -48,12 +50,12 @@ class ShowMatchContainer extends StatelessWidget {
                 const SizedBox(
                   height: SizeManager.s25,
                 ),
-                BlocBuilder<GameBloc, GameState>(
-                  buildWhen: (previous, current) => current is EndPlayState,
-                  builder: (context, state) {
-                    if (state is EndPlayState) {
+                Builder(
+                  builder: (context) {
+                    GameState state = context.read<GameBloc>().state;
+                    if (state is InPlayState) {
                       return GuessCard(
-                        number: state.guess1?.toString(),
+                        number: state.team1Guess?.toString(),
                       );
                     }
                     return const GuessCard(
@@ -65,6 +67,9 @@ class ShowMatchContainer extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(
+            width: 20,
+          ),
           Expanded(
             flex: 2,
             child: Column(
@@ -73,9 +78,13 @@ class ShowMatchContainer extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: SizeManager.s18),
-                Text(
-                  match.team2,
-                  style: Theme.of(context).textTheme.headline5,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    match.team2,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
                 ),
                 const SizedBox(
                   height: SizeManager.s4,
@@ -89,12 +98,12 @@ class ShowMatchContainer extends StatelessWidget {
                 const SizedBox(
                   height: SizeManager.s25,
                 ),
-                BlocBuilder<GameBloc, GameState>(
-                  buildWhen: (previous, current) => current is EndPlayState,
-                  builder: (context, state) {
-                    if (state is EndPlayState) {
+                Builder(
+                  builder: (context) {
+                    GameState state = context.read<GameBloc>().state;
+                    if (state is InPlayState) {
                       return GuessCard(
-                        number: state.guess2?.toString(),
+                        number: state.team2Guess?.toString(),
                       );
                     }
                     return const GuessCard(

@@ -17,48 +17,52 @@ class RoundOneScreen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: SizeManager.s12, vertical: SizeManager.s4),
-          child: BlocConsumer<GameBloc, GameState>(
-            buildWhen: (_, state) => state is InPlayState,
-            listener: (context, state) {
-              // TODO: implement listener
-            },
-            builder: (context, state) {
-              if (state is InPlayState) {
-                if (state.status == GameStatus.inProgress) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 0,
-                      child: ScoreAppBar(
-                        numberOfRound: state.matchesNumber,
-                        score: state.currentScore,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: SizeManager.s8,
-                    ),
-                    Flexible(
-                      flex: 0,
-                      child: ShowMatchContainer(state.match!),
-                    ),
-                    const SizedBox(
-                      height: SizeManager.s12,
-                    ),
-                    Expanded(
-                      child: CardGrid(),
-                    ),
-                  ],
-                );
-              }
-              return const Text("Something went wrong");
-            },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              BlocConsumer<GameBloc, GameState>(
+                buildWhen: (_, state) => state is InPlayState,
+                listener: (context, state) {},
+                builder: (context, state) {
+                  if (state is InPlayState) {
+                    if (state.status == GameStatus.inProgress) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return Column(
+                      children: [
+                        Expanded(
+                          flex: 0,
+                          child: ScoreAppBar(
+                            numberOfRound: state.matchesNumber,
+                            score: state.currentScore,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: SizeManager.s8,
+                        ),
+                        Flexible(
+                          flex: 0,
+                          child: ShowMatchContainer(state.match!),
+                        ),
+                      ],
+                    );
+                  }
+                  return const Text("Something went wrong");
+                },
+              ),
+              const SizedBox(
+                height: SizeManager.s12,
+              ),
+              Expanded(
+                child: CardGrid((guess) {
+                  context.read<GameBloc>().add(ChangeMatchGuess(guess));
+                }),
+              ),
+            ],
           ),
         ),
       ),

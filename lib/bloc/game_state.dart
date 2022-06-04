@@ -26,8 +26,8 @@ class GameInitialState extends GameState {
 // ignore: must_be_immutable
 class InPlayState extends GameState {
   final MatchModel? match;
-  final int? team1Guess;
-  final int? team2Guess;
+  int? team1Guess;
+  int? team2Guess;
   int matchesNumber;
   int errorsNumber;
   int currentScore;
@@ -43,30 +43,49 @@ class InPlayState extends GameState {
     GameStatus status = GameStatus.inProgress,
   }) : super(status, maxScore);
 
-  factory InPlayState.fromState(GameState state, GameStatus newStatus,
-      {MatchModel? match}) {
+  factory InPlayState.fromState(
+    GameState state, {
+    GameStatus? newStatus,
+    MatchModel? match,
+    int? guess1,
+    int? guess2,
+    int? matches,
+    int? errors,
+    int? newMax,
+    int? score,
+    bool clear = false,
+  }) {
     if (state is InPlayState) {
       return InPlayState(
           match: match ?? state.match,
-          matchesNumber: (state.matchesNumber),
-          errorsNumber: (state.errorsNumber),
-          status: newStatus,
-          maxScore: state.maxScore,
-          currentScore: state.currentScore);
+          matchesNumber: matches ?? state.matchesNumber,
+          errorsNumber: errors ?? state.errorsNumber,
+          status: newStatus ?? state.status,
+          team1Guess: clear ? null : (guess1 ?? state.team1Guess),
+          team2Guess: clear ? null : (guess2 ?? state.team2Guess),
+          maxScore: newMax ?? state.maxScore,
+          currentScore: score ?? state.currentScore);
     } else {
       return InPlayState(
           match: match,
           matchesNumber: 1,
           currentScore: 0,
-          errorsNumber: 0,
-          status: newStatus,
+          errorsNumber: 3,
+          status: newStatus ?? state.status,
           maxScore: state.maxScore);
     }
   }
   @override
-  List<Object> get props =>
-      [match?.id ?? "0", team1Guess ?? -1, team2Guess ?? -1, status];
+  List<Object> get props => [
+        match?.id ?? "0",
+        team1Guess ?? -1,
+        team2Guess ?? -1,
+        status,
+        currentScore,
+        matchesNumber
+      ];
 
+  int get newMax => currentScore > maxScore ? currentScore : maxScore;
   bool get check => match!.checkResults(team1Guess, team2Guess);
 }
 
