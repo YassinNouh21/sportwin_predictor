@@ -28,23 +28,24 @@ class RoundOneScreen extends StatelessWidget {
                 BlocConsumer<GameBloc, GameState>(
                   buildWhen: (_, state) => state is InPlayState,
                   listener: (context, state) {
-                    if (state is InPlayState &&
-                        state.status == GameStatus.startPlay &&
-                        state.matchesNumber > 1) {
-                      Navigator.pushReplacementNamed(
-                          context, Routes.roundOneRoute);
-                    } else if (state is EndPlayState &&
+                    // if (state is InPlayState &&
+                    //     state.status == GameStatus.startPlay &&
+                    //     state.matchesNumber > 1) {
+                    //   Navigator.pushReplacementNamed(
+                    //       context, Routes.roundOneRoute);
+                    // }
+                    // else
+                    if (state is EndPlayState &&
                         state.status == GameStatus.error) {
                       Navigator.pushReplacementNamed(
                           context, Routes.gameOverRoute);
+                    } else if (state is InPlayState &&
+                        state.status == GameStatus.finished) {
+                      Navigator.pushReplacementNamed(context, Routes.winRoute);
+                    } else if (state is InPlayState &&
+                        state.status == GameStatus.error) {
+                      Navigator.pushReplacementNamed(context, Routes.loseRoute);
                     }
-                    // } else if (state is InPlayState &&
-                    //     state.status == GameStatus.finished) {
-                    //   Navigator.pushReplacementNamed(context, Routes.winRoute);
-                    // } else if (state is InPlayState &&
-                    //     state.status == GameStatus.error) {
-                    //   Navigator.pushReplacementNamed(context, Routes.loseRoute);
-                    // }
                   },
                   builder: (context, state) {
                     if (state is InPlayState) {

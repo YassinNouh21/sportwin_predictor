@@ -80,7 +80,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
             score: oldState.currentScore + 100,
             newMax: oldState.newMax,
             matches: oldState.matchesNumber + 1));
-        add(const LoadMatchEvent());
+        // add(const LoadMatchEvent());
       } else {
         int errors = oldState.errorsNumber - 1;
         if (errors == -1) {
@@ -98,7 +98,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
             matches: oldState.matchesNumber + 1,
             errors: errors,
           ));
-          add(const LoadMatchEvent());
+          // add(const LoadMatchEvent());
         }
       }
     }

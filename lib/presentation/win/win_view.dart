@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sportwin_predictor/bloc/game_bloc.dart';
+import '../resources/route_manager.dart';
 import '../shared/app_button.dart';
 import '../shared/score_app_bar.dart';
 import 'widgets/show_match_container_win.dart';
@@ -35,13 +36,22 @@ class WinScreen extends StatelessWidget {
         ),
         Expanded(
           flex: 3,
-          child: SizedBox(
-            height: 100,
-            child: AppButton(
-              text: 'Continue',
-              onPress: () {
-                context.read<GameBloc>().add(const LoadMatchEvent());
-              },
+          child: BlocListener<GameBloc, GameState>(
+            listener: (context, state) {
+              if (state is InPlayState &&
+                  state.status == GameStatus.startPlay &&
+                  state.matchesNumber > 1) {
+                Navigator.pushReplacementNamed(context, Routes.roundOneRoute);
+              }
+            },
+            child: SizedBox(
+              height: 100,
+              child: AppButton(
+                text: 'Continue',
+                onPress: () {
+                  context.read<GameBloc>().add(const LoadMatchEvent());
+                },
+              ),
             ),
           ),
         ),
