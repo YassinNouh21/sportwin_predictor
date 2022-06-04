@@ -60,7 +60,7 @@ class InPlayState extends GameState {
           match: match ?? state.match,
           matchesNumber: matches ?? state.matchesNumber,
           errorsNumber: errors ?? state.errorsNumber,
-          status: newStatus ?? state.status,
+          status: newStatus ?? GameStatus.idle,
           team1Guess: clear ? null : (guess1 ?? state.team1Guess),
           team2Guess: clear ? null : (guess2 ?? state.team2Guess),
           maxScore: newMax ?? state.maxScore,
@@ -104,16 +104,21 @@ class StartPlayState extends GameState {
 
 class EndPlayState extends GameState {
   final String message;
-  final int? guess1;
-  final int? guess2;
+  final MatchModel match;
+  final int matchesNumber;
+  final int currentScore;
 
-  const EndPlayState({
+  EndPlayState({
     required this.message,
-    this.guess1,
-    this.guess2,
+    required this.match,
+    required this.matchesNumber,
+    required this.currentScore,
     required int maxScore,
     GameStatus status = GameStatus.inProgress,
-  }) : super(status, maxScore);
+  }) : super(status, maxScore) {
+    PreferenceRepository.putDataInSharedPreference(
+        value: maxScore, key: PreferenceKey.maxScore);
+  }
 
   @override
   List<Object> get props => [status, message];

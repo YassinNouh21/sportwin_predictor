@@ -14,6 +14,8 @@ class ShowMatchContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(match.team1);
+    print(match.team2);
     return Container(
       width: double.infinity,
       color: ColorManger.kSecondary,

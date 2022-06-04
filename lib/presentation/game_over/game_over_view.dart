@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sportwin_predictor/bloc/game_bloc.dart';
+import 'package:sportwin_predictor/presentation/resources/route_manager.dart';
 
-import '../../data/models/match.dart';
 import '../shared/score_app_bar.dart';
 import 'widgets/game_over_bottom.dart';
 import 'widgets/show_match_container_game_over.dart';
@@ -11,15 +13,17 @@ class GameOverScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    EndPlayState state = (context.read<GameBloc>().state as EndPlayState);
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
-            const Expanded(
+            Expanded(
               flex: 0,
               child: ScoreAppBar(
-                numberOfRound: 2,
-                score: 100,
+                timer: false,
+                numberOfRound: state.matchesNumber,
+                score: state.currentScore,
               ),
             ),
             const Expanded(
@@ -30,25 +34,18 @@ class GameOverScreen extends StatelessWidget {
             ),
             Expanded(
               flex: 0,
-              child: ShowMatchContainerGameOver(MatchModel(
-                id: '1',
-                dateTime: '',
-                team1: 'Team1',
-                team1Score: 2,
-                team2: 'Team2',
-                team2Score: 1,
-                team1ImageUrl:
-                    'https://pngimg.com/uploads/fcb_logo/fcb_logo_PNG25.png',
-                team2ImageUrl:
-                    'https://www.freepnglogos.com/uploads/logo-chelsea-png/logo-chelsea-chelsea-football-club-logo-0.png',
-              )),
+              child: ShowMatchContainerGameOver(
+                  (context.read<GameBloc>().state as EndPlayState).match),
             ),
             Expanded(
               flex: 3,
               child: GameOverBottom(
-                onPressAgain: () {},
+                onPressAgain: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, Routes.playRoute, (route) => false);
+                },
                 onPressMenu: () {},
-                score: 200,
+                score: state.currentScore,
               ),
             ),
           ],

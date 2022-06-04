@@ -57,12 +57,15 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (_matches.isEmpty) {
       emit(EndPlayState(
           message: "No More Matches Now",
+          match: (state as InPlayState).match!,
+          matchesNumber: (state as InPlayState).matchesNumber,
+          currentScore: (state as InPlayState).currentScore,
           maxScore: state.maxScore,
           status: GameStatus.finished));
     } else {
       emit(InPlayState.fromState(
         state,
-        newStatus: GameStatus.idle,
+        newStatus: GameStatus.startPlay,
         match: _matches[randomIndex],
       ));
     }
@@ -73,6 +76,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       InPlayState oldState = state as InPlayState;
       if (oldState.check) {
         emit(InPlayState.fromState(state,
+            newStatus: GameStatus.finished,
             score: oldState.currentScore + 100,
             newMax: oldState.newMax,
             matches: oldState.matchesNumber + 1));
@@ -82,11 +86,15 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         if (errors == -1) {
           emit(EndPlayState(
               message: "No More Matches Lives",
+              match: (state as InPlayState).match!,
+              matchesNumber: (state as InPlayState).matchesNumber,
+              currentScore: (state as InPlayState).currentScore,
               maxScore: oldState.maxScore,
               status: GameStatus.error));
         } else {
           emit(InPlayState.fromState(
             state,
+            newStatus: GameStatus.error,
             matches: oldState.matchesNumber + 1,
             errors: errors,
           ));
@@ -99,9 +107,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   _changeMatchGuessHandler(ChangeMatchGuess event, Emitter emit) {
     if (state is InPlayState) {
       if ((state as InPlayState).team1Guess == null) {
-        emit(InPlayState.fromState(state, guess1: event.guess));
+        emit(InPlayState.fromState(state,
+            newStatus: GameStatus.idle, guess1: event.guess));
       } else {
-        emit(InPlayState.fromState(state, guess2: event.guess));
+        emit(InPlayState.fromState(state,
+            newStatus: GameStatus.idle, guess2: event.guess));
         add(const GetMatchResultsEvent());
       }
     }

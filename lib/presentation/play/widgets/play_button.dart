@@ -26,7 +26,7 @@ class PlayButton extends StatelessWidget {
           listener: (context, state) {
             if (state is StartPlayState) {
               if (state.status == GameStatus.finished) {
-                Navigator.pushNamed(context, Routes.roundOneRoute);
+                Navigator.pushReplacementNamed(context, Routes.roundOneRoute);
               } else if (state.status == GameStatus.error) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content:

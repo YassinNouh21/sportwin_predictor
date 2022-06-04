@@ -10,8 +10,10 @@ import 'package:sportwin_predictor/presentation/round_one/widgets/round_indicato
 class ScoreAppBar extends StatefulWidget {
   final int numberOfRound;
   final int score;
+  final bool timer;
   const ScoreAppBar({
     Key? key,
+    required this.timer,
     required this.numberOfRound,
     required this.score,
   }) : super(key: key);
@@ -21,25 +23,27 @@ class ScoreAppBar extends StatefulWidget {
 }
 
 class _ScoreAppBarState extends State<ScoreAppBar> {
-  late Timer _timer;
+  Timer? _timer;
   int ticks = 15000;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      ticks -= 100;
-      if (ticks == 0) {
-        context.read<GameBloc>().add(const GetMatchResultsEvent());
-        _timer.cancel();
-      }
-      setState(() {});
-    });
+    if (widget.timer) {
+      _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+        ticks -= 100;
+        if (ticks == 0) {
+          context.read<GameBloc>().add(const GetMatchResultsEvent());
+          _timer?.cancel();
+        }
+        setState(() {});
+      });
+    }
   }
 
   @override
   dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 

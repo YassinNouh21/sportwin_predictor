@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sportwin_predictor/data/models/match.dart';
 import 'package:sportwin_predictor/presentation/resources/color_manager.dart';
 import 'package:sportwin_predictor/presentation/resources/size_manager.dart';
 import 'package:sportwin_predictor/presentation/shared/guess_card.dart';
 import 'package:sportwin_predictor/presentation/win/widgets/win_indicator.dart';
 
-import '../../../bloc/game_bloc.dart';
 import '../../shared/errored_image.dart';
 
 class ShowMatchContainerWin extends StatelessWidget {
@@ -48,18 +46,8 @@ class ShowMatchContainerWin extends StatelessWidget {
                     const SizedBox(
                       height: SizeManager.s25,
                     ),
-                    BlocBuilder<GameBloc, GameState>(
-                      buildWhen: (previous, current) => current is EndPlayState,
-                      builder: (context, state) {
-                        if (state is EndPlayState) {
-                          return GuessCard(
-                            number: state.guess1?.toString(),
-                          );
-                        }
-                        return const GuessCard(
-                          number: null,
-                        );
-                      },
+                    GuessCard(
+                      number: match.team1Score.toString(),
                     ),
                     const SizedBox(height: SizeManager.s18),
                   ],
@@ -89,18 +77,8 @@ class ShowMatchContainerWin extends StatelessWidget {
                     const SizedBox(
                       height: SizeManager.s25,
                     ),
-                    BlocBuilder<GameBloc, GameState>(
-                      buildWhen: (previous, current) => current is EndPlayState,
-                      builder: (context, state) {
-                        if (state is EndPlayState) {
-                          return GuessCard(
-                            number: state.guess2?.toString(),
-                          );
-                        }
-                        return const GuessCard(
-                          number: null,
-                        );
-                      },
+                    GuessCard(
+                      number: match.team2Score.toString(),
                     ),
                     const SizedBox(height: SizeManager.s18),
                   ],
