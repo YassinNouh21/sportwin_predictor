@@ -25,11 +25,10 @@ class ScoreAppBar extends StatefulWidget {
 class _ScoreAppBarState extends State<ScoreAppBar> {
   Timer? _timer;
   int ticks = 15000;
-
-  @override
-  void initState() {
-    super.initState();
+  
+  void _timerCounter() async {
     if (widget.timer) {
+      await Future.delayed(const Duration(seconds: 5));
       _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
         ticks -= 100;
         if (ticks == 0) {
@@ -39,6 +38,12 @@ class _ScoreAppBarState extends State<ScoreAppBar> {
         setState(() {});
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _timerCounter();
   }
 
   @override
