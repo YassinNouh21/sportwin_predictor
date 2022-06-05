@@ -36,8 +36,7 @@ class ShowMatchContainerLose extends StatelessWidget {
                     const SizedBox(height: SizeManager.s18),
                     AutoSizeText(
                       match.team1,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline5,
                     ),
@@ -70,8 +69,7 @@ class ShowMatchContainerLose extends StatelessWidget {
                     const SizedBox(height: SizeManager.s18),
                     AutoSizeText(
                       match.team2,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline5,
                     ),

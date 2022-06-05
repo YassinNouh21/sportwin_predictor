@@ -4,6 +4,7 @@ import 'package:sportwin_predictor/presentation/shared/guess_card.dart';
 
 class CardGrid extends StatefulWidget {
   final Function(int) onTap;
+  static bool pauseTimer = false;
   CardGrid(this.onTap, {Key? key}) : super(key: key);
 
   @override
@@ -15,6 +16,10 @@ class _CardGridState extends State<CardGrid> {
   bool isAfterFiveSecond = false;
   bool isSelected = false;
   final List<int> randomNumbers = randomList();
+
+  void setStateIfMounted(f) {
+    if (mounted) setState(f);
+  }
 
   @override
   void initState() {
@@ -28,7 +33,7 @@ class _CardGridState extends State<CardGrid> {
 
   @override
   Widget build(BuildContext context) {
-    print('build $isAfterFiveSecond');
+    print('build CardGrid.pauseTimer ${CardGrid.pauseTimer} ');
     return isAfterFiveSecond
         ? GridView.builder(
             shrinkWrap: true,
@@ -42,13 +47,19 @@ class _CardGridState extends State<CardGrid> {
               return InkWell(
                   onTap: () async {
                     widget.onTap(randomNumbers[index]);
-                    setState(() {
-                      isAfterFiveSecond = false;
+
+                    setStateIfMounted(() {
+                      setState(() {
+                        isAfterFiveSecond = false;
+                        CardGrid.pauseTimer = true;
+                      });
                     });
                     choosenIndex.add(index);
                     await Future.delayed(const Duration(seconds: 5));
-                    setState(() {
-                      isAfterFiveSecond = true;
+                    setStateIfMounted(() {
+                      setState(() {
+                        isAfterFiveSecond = true;
+                      });
                     });
                   },
                   child: choosenIndex.length == 1

@@ -27,7 +27,7 @@ class LinearGradientManager {
     end: Alignment.bottomCenter,
     colors: [
       HexColor.fromHex('474747'),
-      HexColor.fromHex('F8BA00'),
+      HexColor.fromHex('#242424'),
     ],
   );
 

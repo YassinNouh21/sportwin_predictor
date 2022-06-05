@@ -6,6 +6,7 @@ import 'package:sportwin_predictor/bloc/game_bloc.dart';
 import 'package:sportwin_predictor/presentation/play/widgets/timer_indicator.dart';
 import 'package:sportwin_predictor/presentation/round_one/widgets/coin_win_indicator.dart';
 import 'package:sportwin_predictor/presentation/round_one/widgets/round_indicator.dart';
+import 'package:sportwin_predictor/presentation/shared/card_grid.dart';
 
 class ScoreAppBar extends StatefulWidget {
   final int numberOfRound;
@@ -25,17 +26,25 @@ class ScoreAppBar extends StatefulWidget {
 class _ScoreAppBarState extends State<ScoreAppBar> {
   Timer? _timer;
   int ticks = 15000;
-  
+  void setStateIfMounted(f) {
+    if (mounted) setState(f);
+  }
+
   void _timerCounter() async {
     if (widget.timer) {
       await Future.delayed(const Duration(seconds: 5));
-      _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) async {
+        if (CardGrid.pauseTimer) {
+          await Future.delayed(const Duration(seconds: 5));
+        }
         ticks -= 100;
         if (ticks == 0) {
           context.read<GameBloc>().add(const GetMatchResultsEvent());
           _timer?.cancel();
         }
-        setState(() {});
+        setStateIfMounted(() {
+          setState(() {});
+        });
       });
     }
   }

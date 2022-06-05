@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportwin_predictor/presentation/resources/assets_manager.dart';
+import 'package:sportwin_predictor/presentation/resources/color_manager.dart';
 import 'package:sportwin_predictor/presentation/resources/size_manager.dart';
 import 'package:sportwin_predictor/presentation/shared/app_button.dart';
 
@@ -47,6 +48,7 @@ class GameOverBottom extends StatelessWidget {
               flex: 5,
               child: AppButton(
                 text: 'Again',
+                gradient: LinearGradientManager.buttonGradient,
                 onPress: onPressAgian,
               ),
             ),
@@ -54,6 +56,7 @@ class GameOverBottom extends StatelessWidget {
             Expanded(
               flex: 5,
               child: AppButton(
+                gradient: LinearGradientManager.buttonGradient,
                 text: 'Menu',
                 onPress: onPressMenu,
               ),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sportwin_predictor/presentation/resources/color_manager.dart';
@@ -28,17 +29,14 @@ class ShowMatchContainer extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const SizedBox(height: SizeManager.s18),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    match.team1,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
+                AutoSizeText(
+                  match.team1,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
                 const SizedBox(
                   height: SizeManager.s4,
@@ -76,17 +74,15 @@ class ShowMatchContainer extends StatelessWidget {
             flex: 2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: SizeManager.s18),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    match.team2,
-                    maxLines: 2,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
+                AutoSizeText(
+                  match.team2,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
                 const SizedBox(
                   height: SizeManager.s4,

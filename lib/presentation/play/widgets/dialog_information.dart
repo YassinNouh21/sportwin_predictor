@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sportwin_predictor/presentation/resources/color_manager.dart';
 import 'package:sportwin_predictor/presentation/resources/size_manager.dart';
@@ -43,9 +44,10 @@ Future<void> showInformationDialog(context) async {
               ),
               SizedBox(
                 width: double.infinity,
-                child: Text(
+                child: AutoSizeText(
                   ScreenOneStrings.informationDetail,
                   style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
                 ),
               ),
               const SizedBox(
