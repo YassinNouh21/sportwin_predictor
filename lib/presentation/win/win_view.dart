@@ -6,8 +6,26 @@ import '../shared/app_button.dart';
 import '../shared/score_app_bar.dart';
 import 'widgets/show_match_container_win.dart';
 
-class WinScreen extends StatelessWidget {
+class WinScreen extends StatefulWidget {
   const WinScreen({Key? key}) : super(key: key);
+
+  @override
+  State<WinScreen> createState() => _WinScreenState();
+}
+
+class _WinScreenState extends State<WinScreen> {
+  void _goToThePlayGame() async {
+    await Future.delayed(const Duration(seconds: 5), () {
+      context.read<GameBloc>().add(const LoadMatchEvent());
+      Navigator.pushNamed(context, Routes.roundOneRoute);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _goToThePlayGame();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,25 +52,10 @@ class WinScreen extends StatelessWidget {
           flex: 0,
           child: ShowMatchContainerWin(state.match!),
         ),
-        Expanded(
+        const Expanded(
           flex: 3,
-          child: BlocListener<GameBloc, GameState>(
-            listener: (context, state) {
-              if (state is InPlayState &&
-                  state.status == GameStatus.startPlay &&
-                  state.matchesNumber > 1) {
-                Navigator.pushReplacementNamed(context, Routes.roundOneRoute);
-              }
-            },
-            child: SizedBox(
-              height: 100,
-              child: AppButton(
-                text: 'Continue',
-                onPress: () {
-                  context.read<GameBloc>().add(const LoadMatchEvent());
-                },
-              ),
-            ),
+          child: SizedBox(
+            height: 100,
           ),
         ),
       ]),

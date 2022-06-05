@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sportwin_predictor/presentation/resources/color_manager.dart';
@@ -33,8 +34,11 @@ class ShowMatchContainerLose extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(height: SizeManager.s18),
-                    Text(
+                    AutoSizeText(
                       match.team1,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     const SizedBox(
@@ -64,8 +68,11 @@ class ShowMatchContainerLose extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     const SizedBox(height: SizeManager.s18),
-                    Text(
+                    AutoSizeText(
                       match.team2,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     const SizedBox(

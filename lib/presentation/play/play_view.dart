@@ -95,7 +95,7 @@ class _PlayScreenState extends State<PlayScreen> {
                           width: SizeManager.s25,
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

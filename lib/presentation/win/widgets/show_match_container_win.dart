@@ -32,6 +32,8 @@ class ShowMatchContainerWin extends StatelessWidget {
                     const SizedBox(height: SizeManager.s18),
                     Text(
                       match.team1,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     const SizedBox(
@@ -63,6 +65,8 @@ class ShowMatchContainerWin extends StatelessWidget {
                     const SizedBox(height: SizeManager.s18),
                     Text(
                       match.team2,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     const SizedBox(

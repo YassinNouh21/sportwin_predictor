@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../bloc/game_bloc.dart';
 import '../resources/route_manager.dart';
 import '../shared/app_button.dart';
@@ -8,8 +7,26 @@ import '../shared/score_app_bar.dart';
 import 'widgets/show_match_conatiner_lose.dart';
 
 // TODO priority 1 you have to start implementing this screen 1
-class LoseScreen extends StatelessWidget {
+class LoseScreen extends StatefulWidget {
   const LoseScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoseScreen> createState() => _LoseScreenState();
+}
+
+class _LoseScreenState extends State<LoseScreen> {
+  void _navigateToThePlayScreen() async {
+    await Future.delayed(const Duration(seconds: 3), () {
+      context.read<GameBloc>().add(const LoadMatchEvent());
+      Navigator.pushNamed(context, Routes.roundOneRoute);
+    });
+  }
+
+  @override
+  void initState() {
+    _navigateToThePlayScreen();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,26 +54,10 @@ class LoseScreen extends StatelessWidget {
               flex: 0,
               child: ShowMatchContainerLose(state.match!),
             ),
-            Expanded(
+            const Expanded(
               flex: 3,
               child: SizedBox(
                 height: 100,
-                child: BlocListener<GameBloc, GameState>(
-                  listener: (context, state) {
-                    if (state is InPlayState &&
-                        state.status == GameStatus.startPlay &&
-                        state.matchesNumber > 1) {
-                      Navigator.pushReplacementNamed(
-                          context, Routes.roundOneRoute);
-                    }
-                  },
-                  child: AppButton(
-                    text: 'Continue',
-                    onPress: () {
-                      context.read<GameBloc>().add(const LoadMatchEvent());
-                    },
-                  ),
-                ),
               ),
             ),
           ],
