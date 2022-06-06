@@ -41,10 +41,13 @@ class GameOverScreen extends StatelessWidget {
               flex: 3,
               child: GameOverBottom(
                 onPressAgain: () {
+                  context.read<GameBloc>().add(const LoadMatchEvent());
+                  Navigator.pushReplacementNamed(context, Routes.roundOneRoute);
+                },
+                onPressMenu: () {
                   Navigator.pushNamedAndRemoveUntil(
                       context, Routes.playRoute, (route) => false);
                 },
-                onPressMenu: () {},
                 score: state.currentScore,
               ),
             ),

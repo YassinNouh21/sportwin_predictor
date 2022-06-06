@@ -79,7 +79,13 @@ class _CardGridState extends State<CardGrid> {
             ),
             itemCount: 16,
             itemBuilder: (BuildContext context, int index) {
-              return const GuessCard();
+              return choosenIndex.length == 1
+                      ? choosenIndex[0] == index
+                          ? Container()
+                          : const GuessCard()
+                      : choosenIndex.length == 2
+                          ? Container()
+                          : const GuessCard();
             });
     ;
   }

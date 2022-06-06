@@ -40,7 +40,7 @@ class _LoseScreenState extends State<LoseScreen> {
               flex: 1,
               child: ScoreAppBar(
                 timer: false,
-                numberOfRound: state.matchesNumber,
+                numberOfRound: state.matchesNumber -1 ,
                 score: state.currentScore,
               ),
             ),

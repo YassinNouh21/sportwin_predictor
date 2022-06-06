@@ -55,19 +55,24 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         newStatus: GameStatus.inProgress, clear: true));
     final int randomIndex = _random.nextInt(_matches.length);
     if (_matches.isEmpty) {
-      emit(EndPlayState(
+      emit(
+        EndPlayState(
           message: "No More Matches Now",
           match: (state as InPlayState).match!,
           matchesNumber: (state as InPlayState).matchesNumber,
           currentScore: (state as InPlayState).currentScore,
           maxScore: state.maxScore,
-          status: GameStatus.finished));
+          status: GameStatus.finished,
+        ),
+      );
     } else {
-      emit(InPlayState.fromState(
-        state,
-        newStatus: GameStatus.startPlay,
-        match: _matches[randomIndex],
-      ));
+      emit(
+        InPlayState.fromState(
+          state,
+          newStatus: GameStatus.startPlay,
+          match: _matches[randomIndex],
+        ),
+      );
     }
   }
 
@@ -75,17 +80,21 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (state is InPlayState) {
       InPlayState oldState = state as InPlayState;
       if (oldState.checkOne) {
-        emit(InPlayState.fromState(state,
-            newStatus: GameStatus.finished,
-            score: oldState.currentScore + 50,
-            newMax: oldState.newMax,
-            matches: oldState.matchesNumber + 1,roundScore: 50));
+        emit(
+          InPlayState.fromState(state,
+              newStatus: GameStatus.finished,
+              score: oldState.currentScore + 50,
+              newMax: oldState.newMax,
+              matches: oldState.matchesNumber + 1,
+              roundScore: 50),
+        );
         if (oldState.check) {
           emit(InPlayState.fromState(state,
               newStatus: GameStatus.finished,
               score: oldState.currentScore + 100,
               newMax: oldState.newMax,
-              matches: oldState.matchesNumber + 1,roundScore: 100));
+              matches: oldState.matchesNumber + 1,
+              roundScore: 100));
         }
         // add(const LoadMatchEvent());
       } else {

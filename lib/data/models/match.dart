@@ -27,7 +27,7 @@ class MatchModel {
   factory MatchModel.fromJson(Map<String, dynamic> json) {
     String _getImage(int num) => "https://cdn.incub.space/v1/opp/icon/$num.png";
 
-    DateTime time = DateTime.fromMicrosecondsSinceEpoch(
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(
         json[ApiConstants.matchTime] * 1000);
     List<String> scores = json[ApiConstants.score].split(':');
 
@@ -39,7 +39,7 @@ class MatchModel {
       team2ImageUrl: _getImage(json[ApiConstants.team2Icon]),
       team1Score: int.parse(scores[0]),
       team2Score: int.parse(scores[1]),
-      dateTime: DateFormat('dd-MM-yyyy').format(time),
+      dateTime: DateFormat('dd.MM').format(time).toString(),
     );
   }
 

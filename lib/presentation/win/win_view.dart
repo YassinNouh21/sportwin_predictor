@@ -38,7 +38,7 @@ class _WinScreenState extends State<WinScreen> {
           flex: 1,
           child: ScoreAppBar(
             timer: false,
-            numberOfRound: state.matchesNumber,
+            numberOfRound: state.matchesNumber -1 ,
             score: state.currentScore,
           ),
         ),

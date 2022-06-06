@@ -25,7 +25,7 @@ class ShowMatchContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
-            flex: 2,
+            flex: 4,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,11 +67,16 @@ class ShowMatchContainer extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(
-            width: 20,
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              color: Colors.green,
+              height: 100,
+              width: 50,
+            ),
           ),
           Expanded(
-            flex: 2,
+            flex: 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -116,5 +121,37 @@ class ShowMatchContainer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Column dateDisplayer(BuildContext context) {
+    return Column(mainAxisSize: MainAxisSize.max, children: [
+            AutoSizeText(
+              match.dateTime,
+              maxLines: 1,
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            const SizedBox(
+              height: SizeManager.s12,
+            ),
+            Container(
+              height: 10,
+              width: 10,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(
+              height: SizeManager.s12,
+            ),
+            Container(
+              height: 10,
+              width: 10,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ]);
   }
 }
