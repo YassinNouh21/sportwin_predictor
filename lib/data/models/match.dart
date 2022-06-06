@@ -46,4 +46,7 @@ class MatchModel {
   bool checkResults(int? team1Guess, int? team2Guess) {
     return team1Guess == team1Score && team2Guess == team2Score;
   }
+  bool checkResultOneRight(int? team1Guess, int? team2Guess) {
+    return team1Guess == team1Score || team2Guess == team2Score;
+  }
 }

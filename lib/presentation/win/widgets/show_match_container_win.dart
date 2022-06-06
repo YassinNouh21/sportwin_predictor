@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sportwin_predictor/bloc/game_bloc.dart';
 import 'package:sportwin_predictor/data/models/match.dart';
 import 'package:sportwin_predictor/presentation/resources/color_manager.dart';
 import 'package:sportwin_predictor/presentation/resources/size_manager.dart';
@@ -10,6 +12,7 @@ import '../../shared/errored_image.dart';
 class ShowMatchContainerWin extends StatelessWidget {
   final MatchModel match;
   const ShowMatchContainerWin(this.match, {Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +93,15 @@ class ShowMatchContainerWin extends StatelessWidget {
               )
             ],
           ),
-          const WinIndicator(round: 3, score: 100),
+          BlocBuilder<GameBloc, GameState>(
+            builder: (context, state) {
+              if (state is InPlayState) {
+                return WinIndicator(round: 3, score: state.roundScore);
+              }
+                return WinIndicator(round: 0, score: 0);
+
+            },
+          ),
           const SizedBox(
             height: SizeManager.s14,
           ),

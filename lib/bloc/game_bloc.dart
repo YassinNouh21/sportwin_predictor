@@ -74,23 +74,32 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   _getMatchResultHandler(GetMatchResultsEvent event, Emitter emit) {
     if (state is InPlayState) {
       InPlayState oldState = state as InPlayState;
-      if (oldState.check) {
+      if (oldState.checkOne) {
         emit(InPlayState.fromState(state,
             newStatus: GameStatus.finished,
-            score: oldState.currentScore + 100,
+            score: oldState.currentScore + 50,
             newMax: oldState.newMax,
-            matches: oldState.matchesNumber + 1));
+            matches: oldState.matchesNumber + 1,roundScore: 50));
+        if (oldState.check) {
+          emit(InPlayState.fromState(state,
+              newStatus: GameStatus.finished,
+              score: oldState.currentScore + 100,
+              newMax: oldState.newMax,
+              matches: oldState.matchesNumber + 1,roundScore: 100));
+        }
         // add(const LoadMatchEvent());
       } else {
         int errors = oldState.errorsNumber - 1;
         if (errors == -1) {
-          emit(EndPlayState(
-              message: "No More Matches Lives",
-              match: (state as InPlayState).match!,
-              matchesNumber: (state as InPlayState).matchesNumber,
-              currentScore: (state as InPlayState).currentScore,
-              maxScore: oldState.maxScore,
-              status: GameStatus.error));
+          emit(
+            EndPlayState(
+                message: "No More Matches Lives",
+                match: (state as InPlayState).match!,
+                matchesNumber: (state as InPlayState).matchesNumber,
+                currentScore: (state as InPlayState).currentScore,
+                maxScore: oldState.maxScore,
+                status: GameStatus.error),
+          );
         } else {
           emit(InPlayState.fromState(
             state,

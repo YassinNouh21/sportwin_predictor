@@ -31,7 +31,7 @@ class InPlayState extends GameState {
   int matchesNumber;
   int errorsNumber;
   int currentScore;
-
+  int roundScore;
   InPlayState({
     required this.match,
     required this.errorsNumber,
@@ -40,6 +40,7 @@ class InPlayState extends GameState {
     this.team1Guess,
     this.team2Guess,
     required int maxScore,
+    required this.roundScore,
     GameStatus status = GameStatus.inProgress,
   }) : super(status, maxScore);
 
@@ -53,6 +54,7 @@ class InPlayState extends GameState {
     int? errors,
     int? newMax,
     int? score,
+    int? roundScore,
     bool clear = false,
   }) {
     if (state is InPlayState) {
@@ -64,6 +66,7 @@ class InPlayState extends GameState {
           team1Guess: clear ? null : (guess1 ?? state.team1Guess),
           team2Guess: clear ? null : (guess2 ?? state.team2Guess),
           maxScore: newMax ?? state.maxScore,
+          roundScore: roundScore ?? 0,
           currentScore: score ?? state.currentScore);
     } else {
       return InPlayState(
@@ -72,6 +75,7 @@ class InPlayState extends GameState {
           currentScore: 0,
           errorsNumber: 3,
           status: newStatus ?? state.status,
+          roundScore: 0,
           maxScore: state.maxScore);
     }
   }
@@ -87,6 +91,7 @@ class InPlayState extends GameState {
 
   int get newMax => currentScore > maxScore ? currentScore : maxScore;
   bool get check => match!.checkResults(team1Guess, team2Guess);
+  bool get checkOne => match!.checkResultOneRight(team1Guess, team2Guess);
 }
 
 class StartPlayState extends GameState {

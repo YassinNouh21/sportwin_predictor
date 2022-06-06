@@ -7,7 +7,7 @@ class WinIndicator extends StatelessWidget {
   final int round;
   final int score;
 
-  const WinIndicator({
+  WinIndicator({
     Key? key,
     this.round = 0,
     required this.score,

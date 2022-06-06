@@ -28,13 +28,6 @@ class RoundOneScreen extends StatelessWidget {
                 BlocConsumer<GameBloc, GameState>(
                   buildWhen: (_, state) => state is InPlayState,
                   listener: (context, state) {
-                    // if (state is InPlayState &&
-                    //     state.status == GameStatus.startPlay &&
-                    //     state.matchesNumber > 1) {
-                    //   Navigator.pushReplacementNamed(
-                    //       context, Routes.roundOneRoute);
-                    // }
-                    // else
                     if (state is EndPlayState &&
                         state.status == GameStatus.error) {
                       Navigator.pushReplacementNamed(
@@ -48,12 +41,12 @@ class RoundOneScreen extends StatelessWidget {
                     }
                   },
                   builder: (context, state) {
+                    if (state.status == GameStatus.inProgress) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                     if (state is InPlayState) {
-                      if (state.status == GameStatus.inProgress) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
                       return Column(
                         children: [
                           Expanded(
