@@ -59,6 +59,15 @@ class ShowMatchContainerLose extends StatelessWidget {
                   ],
                 ),
               ),
+              Flexible(
+                fit: FlexFit.loose,
+                flex: 1,
+                child: Container(
+                  height: 150,
+                  alignment: Alignment.center,
+                  child: dateDisplayer(context),
+                ),
+              ),
               Expanded(
                 flex: 2,
                 child: Column(
@@ -104,5 +113,37 @@ class ShowMatchContainerLose extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Column dateDisplayer(BuildContext context) {
+    return Column(mainAxisSize: MainAxisSize.max, children: [
+      AutoSizeText(
+        match.dateTime,
+        maxLines: 1,
+        style: Theme.of(context).textTheme.headline5,
+      ),
+      const SizedBox(
+        height: SizeManager.s12,
+      ),
+      Container(
+        height: 10,
+        width: 10,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+      ),
+      const SizedBox(
+        height: SizeManager.s12,
+      ),
+      Container(
+        height: 10,
+        width: 10,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+      ),
+    ]);
   }
 }

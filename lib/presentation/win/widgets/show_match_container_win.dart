@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sportwin_predictor/bloc/game_bloc.dart';
@@ -12,7 +13,6 @@ import '../../shared/errored_image.dart';
 class ShowMatchContainerWin extends StatelessWidget {
   final MatchModel match;
   const ShowMatchContainerWin(this.match, {Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,10 @@ class ShowMatchContainerWin extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(height: SizeManager.s18),
-                    Text(
+                    AutoSizeText(
                       match.team1,
-                      textAlign: TextAlign.center,
                       maxLines: 2,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     const SizedBox(
@@ -58,6 +58,15 @@ class ShowMatchContainerWin extends StatelessWidget {
                   ],
                 ),
               ),
+              Flexible(
+                fit: FlexFit.loose,
+                flex: 1,
+                child: Container(
+                  height: 150,
+                  alignment: Alignment.center,
+                  child: dateDisplayer(context),
+                ),
+              ),
               Expanded(
                 flex: 2,
                 child: Column(
@@ -66,10 +75,10 @@ class ShowMatchContainerWin extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     const SizedBox(height: SizeManager.s18),
-                    Text(
+                    AutoSizeText(
                       match.team2,
-                      textAlign: TextAlign.center,
                       maxLines: 2,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     const SizedBox(
@@ -98,8 +107,7 @@ class ShowMatchContainerWin extends StatelessWidget {
               if (state is InPlayState) {
                 return WinIndicator(round: 3, score: state.roundScore);
               }
-                return WinIndicator(round: 0, score: 0);
-
+              return WinIndicator(round: 0, score: 0);
             },
           ),
           const SizedBox(
@@ -108,5 +116,37 @@ class ShowMatchContainerWin extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Column dateDisplayer(BuildContext context) {
+    return Column(mainAxisSize: MainAxisSize.max, children: [
+      AutoSizeText(
+        match.dateTime,
+        maxLines: 1,
+        style: Theme.of(context).textTheme.headline5,
+      ),
+      const SizedBox(
+        height: SizeManager.s12,
+      ),
+      Container(
+        height: 10,
+        width: 10,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+      ),
+      const SizedBox(
+        height: SizeManager.s12,
+      ),
+      Container(
+        height: 10,
+        width: 10,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+      ),
+    ]);
   }
 }

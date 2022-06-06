@@ -67,12 +67,13 @@ class ShowMatchContainer extends StatelessWidget {
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.center,
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
             child: Container(
-              color: Colors.green,
-              height: 100,
-              width: 50,
+              height: 150,
+              alignment: Alignment.center,
+              child: dateDisplayer(context),
             ),
           ),
           Expanded(
